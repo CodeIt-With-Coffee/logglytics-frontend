@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import {
   Flex,
   Grid,
@@ -21,6 +22,7 @@ import { projects } from "../fixtures/projects";
 import * as Styles from "./styles";
 
 function Dashboard() {
+  const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [name, setName] = useState("");
@@ -69,7 +71,13 @@ function Dashboard() {
                 <Styles.CardSubtitle>{project.platform}</Styles.CardSubtitle>
                 <Spacer />
                 <Flex justifyContent={"flex-end"} style={{ gap: "20px" }}>
-                  <Styles.CardLink>OPEN</Styles.CardLink>
+                  <Styles.CardLink
+                    onClick={() =>
+                      history.push(`/project/${project.projectId}`)
+                    }
+                  >
+                    OPEN
+                  </Styles.CardLink>
                   <DeleteIcon color="red.500" cursor={"pointer"} />
                 </Flex>
               </Styles.Card>
