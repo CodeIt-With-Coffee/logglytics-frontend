@@ -28,7 +28,7 @@ import { BarChart, XAxis, Tooltip, Bar } from "recharts";
 import { getRequest, BASE_URL } from "../services/http";
 
 function ProjectDetails() {
-  const { auth } = useContext(AuthContext);
+  const { auth, logout } = useContext(AuthContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { projectId } = useParams<{
     projectId: string;
@@ -104,6 +104,7 @@ function ProjectDetails() {
         <Spacer />
         <Button onClick={() => onOpen()}>Config</Button>
         <Image
+          onClick={() => logout()}
           cursor={"pointer"}
           padding={"0 10px"}
           src={
