@@ -1,10 +1,10 @@
 import React from "react";
 import { Flex, Text, Spacer } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
-import { projects } from "./fixtures/projects";
-import * as Styles from "./styles";
+import { projects } from "../../fixtures/projects";
+import * as Styles from "../../styles";
 
-function App() {
+function Home() {
   return (
     <Flex flexDirection={"column"} width={"100%"}>
       <Flex
@@ -38,4 +38,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

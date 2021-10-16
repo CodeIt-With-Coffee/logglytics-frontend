@@ -1,13 +1,19 @@
-import React from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import React, { useContext } from "react";
+import { Redirect } from "react-router-dom";
 import SawoLogin from "sawo-react";
-import Cookies from "js-cookie";
+import AuthContext from "../../services/useAuth/context";
+import { BASE_URL, httpPost } from "../../services/http";
 
 function Auth() {
-  const history = useHistory();
-  const onSuccess = (payload: any) => {
-    Cookies.set("payload", JSON.stringify(payload));
-    history.push("/");
+  const { auth, login } = useContext(AuthContext);
+  const onSuccess = async (payload: any) => {
+    const response = await httpPost(`${BASE_URL}/auth`, {
+      userId: payload.user_id,
+      emailId: payload.identifier,
+    });
+    if (response.status && response.data) {
+      login(response.data);
+    }
   };
 
   const config = {
@@ -18,7 +24,7 @@ function Auth() {
     containerWidth: "100%",
   };
 
-  if (JSON.parse(Cookies.get("payload") ?? "{}")?.user_id) {
+  if (auth) {
     return <Redirect to={"/"} />;
   }
 
