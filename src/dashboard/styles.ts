@@ -34,4 +34,5 @@ export const CardLink = styled.div`
   text-decoration: underline;
   text-align: right;
   cursor: pointer;
+  color: #4f4fad;
 `;

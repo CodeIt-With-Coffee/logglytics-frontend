@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Home from "./components/home";
 import Auth from "./components/auth";
 import useAuth from "./services/useAuth";
 import useCookie from "react-use-cookie";
 import AuthContext from "./services/useAuth/context";
+import Dashboard from "./dashboard";
 
 function Routes() {
   const [token, setToken] = useCookie("token", "");
@@ -26,7 +26,7 @@ function Routes() {
     <AuthContext.Provider value={{ auth, login, logout }}>
       <Router>
         <Switch>
-          <Route exact path={"/"} component={Home} />
+          <Route exact path={"/"} component={Dashboard} />
           <Route exact path={"/auth"} component={Auth} />
         </Switch>
       </Router>
