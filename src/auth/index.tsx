@@ -2,12 +2,12 @@ import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 import SawoLogin from "sawo-react";
 import AuthContext from "../services/useAuth/context";
-import { BASE_URL, httpPost } from "../services/http";
+import { BASE_URL, postRequest } from "../services/http";
 
 function Auth() {
   const { auth, login } = useContext(AuthContext);
   const onSuccess = async (payload: any) => {
-    const response = await httpPost(`${BASE_URL}/auth`, {
+    const response = await postRequest(`${BASE_URL}/auth`, {
       userId: payload.user_id,
       emailId: payload.identifier,
     });

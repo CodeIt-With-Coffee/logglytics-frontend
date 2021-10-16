@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import {
   Flex,
@@ -18,7 +18,12 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-import { projects } from "../fixtures/projects";
+import {
+  BASE_URL,
+  deleteRequest,
+  getRequest,
+  postRequest,
+} from "../services/http";
 import * as Styles from "./styles";
 
 function Dashboard() {
@@ -27,6 +32,38 @@ function Dashboard() {
 
   const [name, setName] = useState("");
   const [platform, setPlatform] = useState("");
+  const [projectList, setProjectList] = useState([]);
+
+  useEffect(() => {
+    getProjects();
+  }, []);
+
+  const getProjects = async () => {
+    const response = await getRequest(`${BASE_URL}/project`);
+    if (response.status && !!response.data?.length) {
+      setProjectList(response.data);
+    } else {
+      console.error(response.error);
+    }
+  };
+
+  const createProject = async () => {
+    onClose();
+    const response = await postRequest(`${BASE_URL}/project`, {
+      name,
+      platform,
+    });
+    if (response.status) {
+      getProjects();
+    }
+  };
+
+  const deleteProject = async (id: string) => {
+    const response = await deleteRequest(`${BASE_URL}/project/${id}`);
+    if (response.status) {
+      getProjects();
+    }
+  };
 
   return (
     <Flex flexDirection={"column"} width={"100%"}>
@@ -64,21 +101,23 @@ function Dashboard() {
           <Styles.Card isCenter isCursor onClick={onOpen}>
             <AddIcon width={"30px"} height={"30px"} />
           </Styles.Card>
-          {projects &&
-            projects.map((project) => (
-              <Styles.Card key={project.projectId} direction={"column"}>
-                <Styles.CardTitle>{project.projectName}</Styles.CardTitle>
+          {!!projectList.length &&
+            projectList.map((project) => (
+              <Styles.Card key={project.id} direction={"column"}>
+                <Styles.CardTitle>{project.name}</Styles.CardTitle>
                 <Styles.CardSubtitle>{project.platform}</Styles.CardSubtitle>
                 <Spacer />
                 <Flex justifyContent={"flex-end"} style={{ gap: "20px" }}>
                   <Styles.CardLink
-                    onClick={() =>
-                      history.push(`/project/${project.projectId}`)
-                    }
+                    onClick={() => history.push(`/project/${project.id}`)}
                   >
                     OPEN
                   </Styles.CardLink>
-                  <DeleteIcon color="red.500" cursor={"pointer"} />
+                  <DeleteIcon
+                    color="red.500"
+                    cursor={"pointer"}
+                    onClick={() => deleteProject(project.id)}
+                  />
                 </Flex>
               </Styles.Card>
             ))}
@@ -113,7 +152,7 @@ function Dashboard() {
             <Button
               colorScheme="yellow"
               mr={3}
-              onClick={onClose}
+              onClick={createProject}
               disabled={!name || !platform}
             >
               CREATE
