@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Auth from "./components/auth";
+import Auth from "./auth";
 import useAuth from "./services/useAuth";
 import useCookie from "react-use-cookie";
 import AuthContext from "./services/useAuth/context";

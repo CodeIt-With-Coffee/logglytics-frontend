@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 import SawoLogin from "sawo-react";
-import AuthContext from "../../services/useAuth/context";
-import { BASE_URL, httpPost } from "../../services/http";
+import AuthContext from "../services/useAuth/context";
+import { BASE_URL, httpPost } from "../services/http";
 
 function Auth() {
   const { auth, login } = useContext(AuthContext);
