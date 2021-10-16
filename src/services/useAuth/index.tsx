@@ -11,8 +11,8 @@ function useAuth(token?: string) {
 
   const fetchCheckAPI = async () => {
     const response = await getRequest(`${BASE_URL}/auth`);
-    setLoading(false);
     setAuth(response.status);
+    setLoading(false);
   };
 
   return {

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import useCookie from "react-use-cookie";
 import AuthContext from "./services/useAuth/context";
 import Dashboard from "./dashboard";
-import Details from "./projectDetails";
+import ProjectDetails from "./projectDetails";
 import Auth from "./auth";
 import useAuth from "./services/useAuth";
 
@@ -27,7 +27,11 @@ function Routes() {
     <AuthContext.Provider value={{ auth, login, logout }}>
       <Router>
         <Switch>
-          <Route exact path={"/project/:projectId"} component={Details} />
+          <Route
+            exact
+            path={"/project/:projectId"}
+            component={ProjectDetails}
+          />
           <Route exact path={"/"} component={Dashboard} />
           <Route exact path={"/auth"} component={Auth} />
         </Switch>

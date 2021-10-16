@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import {
   Flex,
@@ -25,9 +25,12 @@ import {
   postRequest,
 } from "../services/http";
 import * as Styles from "./styles";
+import AuthContext from "../services/useAuth/context";
+import { Redirect } from "react-router-dom";
 
 function Dashboard() {
   const history = useHistory();
+  const { auth, logout } = useContext(AuthContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [name, setName] = useState("");
@@ -35,8 +38,13 @@ function Dashboard() {
   const [projectList, setProjectList] = useState([]);
 
   useEffect(() => {
+    if (!auth) return;
     getProjects();
-  }, []);
+  }, [auth]);
+
+  if (!auth) {
+    return <Redirect to={"/auth"} />;
+  }
 
   const getProjects = async () => {
     const response = await getRequest(`${BASE_URL}/project`);
@@ -76,6 +84,7 @@ function Dashboard() {
         <Text fontSize="2xl">Logglytics</Text>
         <Spacer />
         <Image
+          onClick={() => logout()}
           cursor={"pointer"}
           padding={"0 10px"}
           src={
