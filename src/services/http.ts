@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getCookie } from "react-use-cookie";
 
-const BASE_URL = "https://logglytics.herokuapp.com";
+const BASE_URL = "https://logglytics-backend.onrender.com";
 
 const headers = () => {
   const token = getCookie("token");
